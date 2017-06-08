@@ -1,0 +1,71 @@
+<html>
+<head>
+<script type="text/javascript" src="vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <div>simple message: {{ message }}</div>
+  <div v-once>once message: {{ message }}</div>
+  <div>Upper Case filter: {{ message | filterMessage}}</div>
+  <div v-bind:title="title">
+  	What's my title?(bind-title)
+  </div>
+  <a v-bind:href="link">Where to go?(bind-href)</a>
+  <div v-if="canYou">Can you see me(v-if)</div>
+  <div v-if="canYouNot">Can not you see me</div>
+  <div> 
+  	  <div>v-for:</div>
+	  <li v-for="each in items">{{each.text}}</li>
+   </div>
+
+   <div>
+   	<div>v-for:2</div>
+  	<template v-for="item in items">
+    	<li>{{ item.text }}</li>
+  	</template>
+   </div>
+
+   <button v-on:click="reverseMessage">reverse(v-on:click)</button>
+   <span>bind model:</span><input v-model="message" />
+
+   
+</div>
+<div id="displayVm">
+
+</div>
+
+<script type="text/javascript">
+var data = {
+		message: 'hello Vue',
+		title: 'I am title',
+		canYou: true,
+		canYouNot: false,
+		link: 'http://www.baidu.com',
+		items: [{text:'java'},{text:'oracle'},{text:'mysql'}]
+	}
+var vm = new Vue({
+	el: '#app',
+	data: data,
+	methods: {
+		reverseMessage: function(){
+			this.message = this.message.split('').reverse().join('');
+		}
+
+	},
+	filters: {
+		filterMessage: function(value) {
+			return value.toUpperCase();
+		}
+	}
+});
+var displayVm = document.getElementById('displayVm');
+displayVm.innerHTML=('vm.message === data.message?' + (vm.message === data.message));
+console.log(vm.message === data.message);
+
+displayVm.innerHTML+='<br />vm.$el===document.getElementById(\'app\')?'+(document.getElementById('app')===vm.$el);
+// vm.$el.innerHTML+="ok";
+</script>
+
+</body>
+</html>
